@@ -2,14 +2,15 @@
 import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
+import Logout from "./Logout";
 
-const Navbar = () => {
+const Navbar = ({ session }: { session: any }) => {
   const [menu, setMenu] = useState<boolean>(false);
   const toggleMenu = () => {
     setMenu(!menu);
     console.log("Menu toggled:", !menu);
   };
-
+  console.log("Session:", session);
   return (
     <div>
       <nav className="p-4">
@@ -28,9 +29,20 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a href="/contact" className="text-nav hover:text-gray-300">
-                Contact
+              <a href="/Jobs" className="text-nav hover:text-gray-300">
+                Jobs
               </a>
+            </li>
+            <li>
+              {session && <Logout />}
+              {!session && (
+                <a
+                  href="/login"
+                  className="bg-primary text-nav rounded hover:bg-primary-dark cursor-pointer px-4 py-2"
+                >
+                  Login
+                </a>
+              )}
             </li>
           </ul>
         </div>
@@ -38,9 +50,23 @@ const Navbar = () => {
         {/* Mobile Navbar */}
         <div className="lg:hidden flex justify-between items-center">
           <div className="text-nav text-lg font-bold">RozGaar</div>
-          <button className="text-nav focus:outline-none" onClick={toggleMenu}>
-            <GiHamburgerMenu size={24} />
-          </button>
+          <div className="flex items-center space-x-4">
+            <button
+              className="text-nav focus:outline-none"
+              onClick={toggleMenu}
+            >
+              <GiHamburgerMenu size={24} />
+            </button>
+            {session && <Logout />}
+            {!session && (
+              <a
+                href="/login"
+                className="bg-primary text-nav rounded hover:bg-primary-dark cursor-pointer px-4 py-2"
+              >
+                Login
+              </a>
+            )}
+          </div>
         </div>
       </nav>
 
