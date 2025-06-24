@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getServerSession } from "next-auth";
+import AuthProvider from "@/components/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +35,13 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en">
-      <body className={`${dmsans.variable} font-sans antialiased`}>
-        <Navbar session={session} />
-        {children}
-        <Footer />
-      </body>
+      <AuthProvider>
+        <body className={`${dmsans.variable} font-sans antialiased`}>
+          <Navbar session={session} />
+          {children}
+          <Footer />
+        </body>
+      </AuthProvider>
     </html>
   );
 }
