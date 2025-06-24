@@ -11,7 +11,7 @@ const Form = () => {
     const user = await getUser({
       email: formData.get("email") as string,
     });
-    if (user) {
+    if (user.length > 0) {
       alert("User already exists with this email.");
       return;
     }
