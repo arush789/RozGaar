@@ -2,11 +2,19 @@
 import { signIn } from "next-auth/react";
 import React, { use } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { getUser } from "../utils";
 
 const Form = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const user = await getUser({
+      email: formData.get("email") as string,
+    });
+    if (user) {
+      alert("User already exists with this email.");
+      return;
+    }
     const response = await fetch("/api/auth/register", {
       method: "POST",
       headers: {
