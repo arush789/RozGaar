@@ -1,5 +1,7 @@
 "use client";
-import React from "react";
+import { signIn } from "next-auth/react";
+import React, { use } from "react";
+import { FcGoogle } from "react-icons/fc";
 
 const Form = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -13,12 +15,16 @@ const Form = () => {
       body: JSON.stringify({
         email: formData.get("email"),
         password: formData.get("password"),
+        username: formData.get("name"),
       }),
     });
     if (response.ok) {
-      // Handle successful registration, e.g., redirect to login page
       window.location.href = "/login";
     }
+  };
+
+  const handleGoogleSignIn = () => {
+    signIn("google");
   };
 
   return (
@@ -37,6 +43,13 @@ const Form = () => {
         </div>
 
         <div className="space-y-4">
+          <input
+            name="name"
+            type="name"
+            required
+            placeholder="Username"
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+          />
           <input
             name="email"
             type="email"
@@ -59,7 +72,14 @@ const Form = () => {
         >
           Register
         </button>
-
+        <button
+          onClick={handleGoogleSignIn}
+          type="button"
+          className="flex items-center justify-center gap-2 w-full py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white hover:bg-gray-50 transition duration-300"
+        >
+          <FcGoogle size={24} />
+          <span className="text-gray-700 font-medium">Sign in with Google</span>
+        </button>
         <p className="text-center text-sm text-gray-600">
           Already have an account?{" "}
           <a

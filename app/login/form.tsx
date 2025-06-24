@@ -2,6 +2,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { FcGoogle } from "react-icons/fc";
 
 const Form = () => {
   const router = useRouter();
@@ -19,7 +20,13 @@ const Form = () => {
     if (!response?.error) {
       router.push("/");
       router.refresh();
+    } else {
+      alert("Invalid credentials, please try again.");
     }
+  };
+
+  const handleGoogleSignIn = () => {
+    signIn("google");
   };
 
   return (
@@ -50,17 +57,25 @@ const Form = () => {
           />
         </div>
 
-        <div className="text-right text-sm">
+        {/* <div className="text-right text-sm">
           <a href="#" className="text-blue-600 hover:underline">
             Forgot password?
           </a>
-        </div>
+        </div> */}
 
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition duration-300"
         >
           Login
+        </button>
+        <button
+          onClick={handleGoogleSignIn}
+          type="button"
+          className="flex items-center justify-center gap-2 w-full py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white hover:bg-gray-50 transition duration-300"
+        >
+          <FcGoogle size={24} />
+          <span className="text-gray-700 font-medium">Sign in with Google</span>
         </button>
 
         <p className="text-center text-sm text-gray-600">
