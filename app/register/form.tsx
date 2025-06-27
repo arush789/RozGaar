@@ -1,8 +1,9 @@
 "use client";
 import { signIn } from "next-auth/react";
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { getUser } from "../utils";
+import Cookies from "js-cookie";
 
 const Form = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -11,10 +12,11 @@ const Form = () => {
     const user = await getUser({
       email: formData.get("email") as string,
     });
-    if (user.length > 0) {
+    if (user.id) {
       alert("User already exists with this email.");
       return;
     }
+
     const response = await fetch("/api/auth/register", {
       method: "POST",
       headers: {
@@ -27,12 +29,15 @@ const Form = () => {
       }),
     });
     if (response.ok) {
-      window.location.href = "/login";
+      Cookies.set("redirectToSelectRole", "true", { expires: 0.02 });
+      window.location.href = "/selectrole?email=" + formData.get("email");
     }
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google");
+    signIn("google", {
+      callbackUrl: "/auth-redirect", // 👈 new route that checks role
+    });
   };
 
   return (

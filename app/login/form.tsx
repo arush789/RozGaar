@@ -3,6 +3,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
+import { getRole } from "../utils";
+import Cookies from "js-cookie";
 
 const Form = () => {
   const router = useRouter();
@@ -16,17 +18,25 @@ const Form = () => {
       redirect: false,
     });
 
-    console.log(response);
     if (!response?.error) {
-      router.push("/");
-      router.refresh();
+      const roleResponse = await getRole({
+        email: formData.get("email") as string,
+      });
+      if (!roleResponse?.role) {
+        Cookies.set("redirectToSelectRole", "true", { expires: 0.02 });
+        router.push("/selectrole?email=" + formData.get("email"));
+      } else {
+        window.location.href = "/";
+      }
     } else {
       alert("Invalid credentials, please try again.");
     }
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google");
+    signIn("google", {
+      callbackUrl: "/auth-redirect", // 👈 new route that checks role
+    });
   };
 
   return (

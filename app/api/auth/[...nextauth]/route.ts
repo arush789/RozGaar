@@ -43,13 +43,11 @@ const handler = NextAuth({
         });
 
         const user = await response.json();
-        console.log({ user });
+
         const isValidPassword = await compare(
           credentials?.password || "",
           user.password
         );
-
-        console.log(isValidPassword);
 
         if (isValidPassword) {
           return {
@@ -81,10 +79,9 @@ const handler = NextAuth({
           await axios.post("http://localhost:3001/create-user", {
             username: user.name,
             email: user.email,
-            password: await hash("@(#&SAC", 10),
+            password: "google-auth",
           });
         }
-
         return true;
       } catch (error) {
         console.error("Error in signIn callback:", error);
@@ -101,6 +98,7 @@ const handler = NextAuth({
             }
           );
           token.id = userInfo?.id;
+          token.role = userInfo?.role;
         } catch (error) {
           console.error("Error in jwt callback:", error);
         }
