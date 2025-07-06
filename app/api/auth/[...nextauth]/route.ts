@@ -94,11 +94,13 @@ const handler = NextAuth({
           const { data: userInfo } = await axios.post(
             "http://localhost:3001/get-user",
             {
-              email: token.email,
+              email: user.email ?? token.email,
             }
           );
+
           token.id = userInfo?.id;
           token.role = userInfo?.role;
+          token.email = userInfo?.email;
         } catch (error) {
           console.error("Error in jwt callback:", error);
         }
@@ -107,9 +109,10 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && session.user) {
         session.user.email = token.email as string;
         session.user.id = token.id as number;
+        session.user.role = token.role as string; // ✅ add this line
       }
       return session;
     },

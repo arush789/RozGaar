@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 import Logout from "./Logout";
+import { getRole } from "@/app/utils";
 
 const Navbar = ({ session }: { session: any }) => {
   const [menu, setMenu] = useState<boolean>(false);
@@ -10,7 +11,7 @@ const Navbar = ({ session }: { session: any }) => {
     setMenu(!menu);
     console.log("Menu toggled:", !menu);
   };
-  console.log("Session:", session);
+
   return (
     <div>
       <nav className="p-4">
