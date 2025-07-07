@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -22,9 +23,11 @@ export default function Home() {
             Discover internships and jobs that align with your skills and goals.
             Apply now and grow with top companies.
           </p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 mt-4 rounded shadow">
-            Get Started
-          </button>
+          <Link href="/Jobs">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 mt-4 rounded shadow">
+              Get Started
+            </button>
+          </Link>
         </div>
       </div>
 

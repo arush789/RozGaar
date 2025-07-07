@@ -4,12 +4,25 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 import Logout from "./Logout";
 import { getRole } from "@/app/utils";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Image from "next/image";
+import userImage from "../public/images/user-img.jpg";
 
 const Navbar = ({ session }: { session: any }) => {
   const [menu, setMenu] = useState<boolean>(false);
   const toggleMenu = () => {
     setMenu(!menu);
     console.log("Menu toggled:", !menu);
+  };
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -18,7 +31,7 @@ const Navbar = ({ session }: { session: any }) => {
         {/* Desktop Navbar */}
         <div className="container mx-auto justify-between items-center lg:flex hidden">
           <div className="text-nav text-lg font-bold">RozGaar</div>
-          <ul className="flex space-x-4">
+          <ul className="flex items-center space-x-4">
             <li>
               <a href="/" className="text-nav hover:text-gray-300">
                 Home
@@ -35,7 +48,36 @@ const Navbar = ({ session }: { session: any }) => {
               </a>
             </li>
             <li>
-              {session && <Logout />}
+              {session && (
+                <div className="mt-1">
+                  <button onClick={handleClick}>
+                    <Image
+                      src={session?.user.image || userImage}
+                      alt="profile"
+                      width={34}
+                      height={34}
+                      className="rounded-full"
+                    />
+                  </button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    slotProps={{
+                      list: {
+                        "aria-labelledby": "basic-button",
+                      },
+                    }}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem>
+                      <Logout />
+                    </MenuItem>
+                  </Menu>
+                </div>
+              )}
               {!session && (
                 <a
                   href="/login"
@@ -58,7 +100,36 @@ const Navbar = ({ session }: { session: any }) => {
             >
               <GiHamburgerMenu size={24} />
             </button>
-            {session && <Logout />}
+            {session && (
+              <div className="mt-1">
+                <button onClick={handleClick}>
+                  <Image
+                    src={session?.user.image || userImage}
+                    alt="profile"
+                    width={34}
+                    height={34}
+                    className="rounded-full"
+                  />
+                </button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  slotProps={{
+                    list: {
+                      "aria-labelledby": "basic-button",
+                    },
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem>
+                    <Logout />
+                  </MenuItem>
+                </Menu>
+              </div>
+            )}
             {!session && (
               <a
                 href="/login"
@@ -104,8 +175,8 @@ const Navbar = ({ session }: { session: any }) => {
             </a>
           </li>
           <li className="py-2 rounded">
-            <a href="/contact" className="block">
-              Contact
+            <a href="/Jobs" className="block">
+              Jobs
             </a>
           </li>
         </ul>
