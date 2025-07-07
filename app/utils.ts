@@ -23,3 +23,13 @@ export const getRole = async ({ email }: { email: string }) => {
     return null;
   }
 };
+
+export const getJobs = async () => {
+  try {
+    const response = await axios.post("http://localhost:3001/get-jobs");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching role:", error);
+    return null;
+  }
+};

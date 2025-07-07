@@ -44,7 +44,6 @@ const JobForm = () => {
     }
   }, [session]);
 
-  console.log(session?.user.role);
   const handleNext = () => {
     setActiveStep((prev) => prev + 1);
   };
