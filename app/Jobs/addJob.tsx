@@ -12,6 +12,8 @@ const AddJob = () => {
 
   if (session?.user?.role === "seeker") return null;
 
+  console.log(session);
+
   return (
     <Link
       href="/Jobadd"

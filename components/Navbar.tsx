@@ -9,6 +9,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import userImage from "../public/images/user-img.jpg";
+import Link from "next/link";
 
 const Navbar = ({ session }: { session: any }) => {
   const [menu, setMenu] = useState<boolean>(false);
@@ -70,7 +71,9 @@ const Navbar = ({ session }: { session: any }) => {
                       },
                     }}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem>
+                      <Link href="/Profile">Profile</Link>
+                    </MenuItem>
                     <MenuItem onClick={handleClose}>My account</MenuItem>
                     <MenuItem>
                       <Logout />
@@ -122,7 +125,11 @@ const Navbar = ({ session }: { session: any }) => {
                     },
                   }}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link href="/Profile" className="w-full block">
+                      Profile
+                    </Link>
+                  </MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem>
                     <Logout />

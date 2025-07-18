@@ -33,3 +33,22 @@ export const getJobs = async () => {
     return null;
   }
 };
+
+export const phoneAdd = async ({
+  phoneNumber,
+  email,
+}: {
+  phoneNumber: string;
+  email: string;
+}) => {
+  try {
+    const response = await axios.post("http://localhost:3001/add-phone", {
+      phoneNumber,
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding phone number:", error);
+    return null;
+  }
+};
